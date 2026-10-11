@@ -15,9 +15,17 @@ app.get("/tasks", (req, res) => {
 });
 
 app.post("/tasks", (req, res) => {
+  const title = req.body?.title;
+
+  if (typeof title !== "string" || !title.trim()) {
+    return res.status(400).json({
+      error: "Task title is required",
+    });
+  }
+
   const task = {
     id: nextId++,
-    title: req.body.title,
+    title: title.trim(),
     completed: false,
   };
 
